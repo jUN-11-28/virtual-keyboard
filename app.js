@@ -1,3 +1,29 @@
+const koreanKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  'ㅂ', 'ㅈ', 'ㄷ', 'ㄱ', 'ㅅ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅐ', 'ㅔ',
+  'ㅁ', 'ㄴ', 'ㅇ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅓ', 'ㅏ', 'ㅣ',
+  'ㅋ', 'ㅌ', 'ㅊ', 'ㅍ', 'ㅠ', 'ㅜ', 'ㅡ', ' ', '\n'];
+
+const koreanShiftKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  'ㅃ', 'ㅉ', 'ㄸ', 'ㄲ', 'ㅆ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅒ', 'ㅖ',
+  'ㅁ', 'ㄴ', 'ㅇ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅓ', 'ㅏ', 'ㅣ',
+  'ㅋ', 'ㅌ', 'ㅊ', 'ㅍ', 'ㅠ', 'ㅜ', 'ㅡ', ' ', '\n'];
+
+const englishKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+  'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+  'z', 'x', 'c', 'v', 'b', 'n', 'm', ' ', '\n'];
+
+const englishCapitalKey = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+  'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+  'Z', 'X', 'C', 'V', 'B', 'N', 'M', ' ', '\n'];
+
+const specialSymbolKey = ['-', '/', ':', ';', '(', ')', '$', '&', '@', '"',
+  '[', ']', '{', '}', '#', '%', '^', '*', '+', '=',
+  '_', '\\', '|', '~', '<', '>', '₩', '£', '¥',
+  '.', ',', '?', '!', '\'', ':)', ':(', ' ', '\n'];
+
+
 function selectText(elementId) {
   var text = document.getElementById(elementId);
   if (window.getSelection) {
@@ -15,27 +41,50 @@ window.onload = function() {
   selectText('textToSelect');
 };
 
+var currentLanguage = 'Korean';
+var isShiftActive = false;
+var isSpecialSymbol = false;
+
+function keyidToChar(keyId) {
+  if (isSpecialSymbol) {
+    return specialSymbolKey[Number(keyId)];
+  } else if (currentLanguage === 'Korean') {
+    if (isShiftActive) {
+      return koreanShiftKey[Number(keyId)];
+    } else {
+      return koreanKey[Number(keyId)];
+    }
+  } else if (currentLanguage === 'English') {
+    if (isShiftActive) {
+      return englishCapitalKey[Number(keyId)];
+    } else {
+      return englishKey[Number(keyId)];
+    }
+  }
+}
+
+// TODO:
+function changeKeylabel() {
+  console.log("changeKeyLabel");
+  document.querySelectorAll('.key').forEach(key => key.textContent = keyidToChar(key.getAttribute('key-id')));
+  document.getElementById('space-key').textContent = 'space';
+  document.getElementById('return-key').textContent = 'return';
+}
+
 document.querySelectorAll('.key').forEach(function(key) {
   key.addEventListener('click', function (event) {
-    var character = this.getAttribute('data-character');
+    var keyId = this.getAttribute('key-id');
     var input = document.getElementById('textInput');
     var currentValue = input.value;
-    if (character === 'return') {
-      // console.log('new line');
-      input.value = currentValue + '\n';
-    } else {
-      var combinedValue = Hangul.assemble(currentValue + character);
-      input.value = combinedValue;
-    }
+    var combinedValue = Hangul.assemble(currentValue + keyidToChar(keyId));
+    input.value = combinedValue;
     document.getElementById('textToSelect').textContent = input.value;
     selectText('textToSelect');
     isShiftActive = false;
-    doShiftKey();
+    changeKeylabel();
     event.stopPropagation();
   });
 });
-
-var isShiftActive = false;
 
 document.querySelectorAll('.special-key').forEach(function(key) {
   key.addEventListener('click', function(event) {
@@ -52,8 +101,18 @@ document.querySelectorAll('.special-key').forEach(function(key) {
       }
     } else if (character === '⬆') {
       isShiftActive = !isShiftActive;
-      doShiftKey();
-    } else if (character === '🗑️') {
+      changeKeylabel();
+    } else if (character === '🌏') {
+      if (currentLanguage === 'Korean') {
+        currentLanguage = 'English';
+      } else if (currentLanguage === 'English') {
+        currentLanguage = 'Korean';
+      }
+      changeKeylabel();
+    } else if (character === '💱') {
+      isSpecialSymbol = !isSpecialSymbol;
+      changeKeylabel();
+    }else if (character === '🗑️') {
       input.value = '';
       document.getElementById('textToSelect').textContent = input.value;
     }
@@ -62,38 +121,19 @@ document.querySelectorAll('.special-key').forEach(function(key) {
   });
 });
 
-function doShiftKey() {
-  console.log("what?");
-  document.querySelectorAll('.key').forEach(function(key) {
-    if (isShiftActive) {
-      // Shift 모드일 때
-      if (key.getAttribute('data-shift') != undefined) {
-        key.textContent = key.getAttribute('data-shift');
-        key.setAttribute('data-character', key.textContent);
-      }
-    } else {
-      // 기본 모드일 때
-      if (key.getAttribute('data-normal')) {
-        key.textContent = key.getAttribute('data-normal');
-        key.setAttribute('data-character', key.textContent);
-      }
-    }
-  });
-}
-
 document.documentElement.addEventListener('touchstart', function (event) {
-     if (event.touches.length > 1) {
-          event.preventDefault();
-        }
-    }, false);
+  if (event.touches.length > 1) {
+    event.preventDefault();
+  }
+}, false);
 
 var lastTouchEnd = 0;
 
 document.documentElement.addEventListener('touchend', function (event) {
-     var now = (new Date()).getTime();
-     if (now - lastTouchEnd <= 300) {
-          event.preventDefault();
-        } lastTouchEnd = now;
+  var now = (new Date()).getTime();
+  if (now - lastTouchEnd <= 100) {
+    event.preventDefault();
+  } lastTouchEnd = now;
 }, false);
 
 document.getElementById('textInput').addEventListener('input', function () {
@@ -101,10 +141,9 @@ document.getElementById('textInput').addEventListener('input', function () {
   document.getElementById('textToSelect').textContent = text;
 });
 
-document.getElementById('select-all-btn').addEventListener('click', function () {
-  selectText('textToSelect');
-});
-
+// document.getElementById('select-all-btn').addEventListener('click', function () {
+//   selectText('textToSelect');
+// });
 
 document.body.addEventListener('click', function(event) {
   if (event.target.tagName !== 'DIV') {
