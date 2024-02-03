@@ -115,11 +115,35 @@ document.querySelectorAll('.special-key').forEach(function(key) {
     }else if (character === '🗑️') {
       input.value = '';
       document.getElementById('textToSelect').textContent = input.value;
+    } else if (character === '🎙️') {
+      // TODO:
+      setApiKey();
+      recordVoice();
     }
     selectText('textToSelect');
     event.stopPropagation();
   });
 });
+
+const setApiKey = () => {
+  const openAiApiKey = window.localStorage.getItem('openAiKey');
+  if (!openAiApiKey) {
+    document.getElementById('keyboard-container').style.display = 'none';
+    document.getElementById('setting-container').style.display = 'flex';
+  }
+}
+
+document.getElementById('api-save-btn').addEventListener('click', () => {
+  let apiKey = document.getElementById('api-input').value;
+  window.localStorage.setItem('openAiKey', apiKey);
+  document.getElementById('keyboard-container').style.display = 'flex';
+  document.getElementById('setting-container').style.display = 'none';
+  document.getElementById('mic-key').style.backgroundColor = '';
+});
+
+function recordVoice() {
+  document.getElementById('mic-key').style.backgroundColor = '#de4759';
+}
 
 document.documentElement.addEventListener('touchstart', function (event) {
   if (event.touches.length > 1) {
@@ -141,9 +165,9 @@ document.getElementById('textInput').addEventListener('input', function () {
   document.getElementById('textToSelect').textContent = text;
 });
 
-// document.getElementById('select-all-btn').addEventListener('click', function () {
-//   selectText('textToSelect');
-// });
+document.getElementById('select-all-btn').addEventListener('click', function () {
+  selectText('textToSelect');
+});
 
 // document.body.addEventListener('click', function(event) {
 //   if (event.target.tagName !== 'DIV') {
