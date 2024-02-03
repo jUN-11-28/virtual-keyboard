@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="style.css">
+  <title>Korean virtual keyboard for Apple Vision Pro</title>
+  <script src="hangul.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div id="keyboard-container">
+    <div class="final-texts">
+      <div id="textToSelect">선택된 텍스트를 <b>드래그 앤 드롭</b> 하세요.</div>
+    </div>
+    <div class="edit-texts" style="display: none;">
+      <textarea inputmode="none" id="textInput"></textarea>
+    </div>
+    <div class="key-row" id="first-row">
+      <div class="key" data-character="1">1</div>
+      <div class="key" data-character="2">2</div>
+      <div class="key" data-character="3">3</div>
+      <div class="key" data-character="4">4</div>
+      <div class="key" data-character="5">5</div>
+      <div class="key" data-character="6">6</div>
+      <div class="key" data-character="7">7</div>
+      <div class="key" data-character="8">8</div>
+      <div class="key" data-character="9">9</div>
+      <div class="key" data-character="0">0</div>
+    </div>
+    <div class="key-row" id="second-row">
+      <div class="key" data-character="ㅂ" data-normal="ㅂ" data-shift="ㅃ">ㅂ</div>
+      <div class="key" data-character="ㅈ" data-normal="ㅈ" data-shift="ㅉ">ㅈ</div>
+      <div class="key" data-character="ㄷ" data-normal="ㄷ" data-shift="ㄸ">ㄷ</div>
+      <div class="key" data-character="ㄱ" data-normal="ㄱ" data-shift="ㄲ">ㄱ</div>
+      <div class="key" data-character="ㅅ" data-normal="ㅅ" data-shift="ㅆ">ㅅ</div>
+      <div class="key" data-character="ㅛ">ㅛ</div>
+      <div class="key" data-character="ㅕ">ㅕ</div>
+      <div class="key" data-character="ㅑ">ㅑ</div>
+      <div class="key" data-character="ㅐ" data-normal="ㅐ" data-shift="ㅒ">ㅐ</div>
+      <div class="key" data-character="ㅔ" data-normal="ㅔ" data-shift="ㅖ">ㅔ</div>
+    </div>
+    <div class="key-row" id="third-row">
+      <div class="key" data-character="ㅁ">ㅁ</div>
+      <div class="key" data-character="ㄴ">ㄴ</div>
+      <div class="key" data-character="ㅇ">ㅇ</div>
+      <div class="key" data-character="ㄹ">ㄹ</div>
+      <div class="key" data-character="ㅎ">ㅎ</div>
+      <div class="key" data-character="ㅗ">ㅗ</div>
+      <div class="key" data-character="ㅓ">ㅓ</div>
+      <div class="key" data-character="ㅏ">ㅏ</div>
+      <div class="key" data-character="ㅣ">ㅣ</div>
+    </div>
+    <div class="key-row" id="fourth-row">
+      <div class="special-key" id="shift-key" data-character="⬆">⬆</div>
+      <div class="key" data-character="ㅋ">ㅋ</div>
+      <div class="key" data-character="ㅌ">ㅌ</div>
+      <div class="key" data-character="ㅊ">ㅊ</div>
+      <div class="key" data-character="ㅍ">ㅍ</div>
+      <div class="key" data-character="ㅠ">ㅠ</div>
+      <div class="key" data-character="ㅜ">ㅜ</div>
+      <div class="key" data-character="ㅡ">ㅡ</div>
+      <div class="special-key" id="delete-key" data-character="⬅">⬅</div>
+    </div>
+    <div class="key-row" id="fifth-row">
+      <div class="special-key" data-character="🗑️">🗑️</div>
+      <div class="special-key" id="select-all-btn" data-character="">📄</div>
+      <div class="special-key" data-character="💱">💱</div>
+      <div class="key" id="space-key" data-character=" ">space</div>
+      <div class="key" id="return-key" data-character="return">return</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
