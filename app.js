@@ -79,9 +79,9 @@ document.querySelectorAll('.key').forEach(function(key) {
     var combinedValue = Hangul.assemble(currentValue + keyidToChar(keyId));
     input.value = combinedValue;
     document.getElementById('textToSelect').textContent = input.value;
-    selectText('textToSelect');
     isShiftActive = false;
     changeKeylabel();
+    selectText('textToSelect');
     event.stopPropagation();
   });
 });
@@ -145,7 +145,7 @@ document.getElementById('textInput').addEventListener('input', function () {
 //   selectText('textToSelect');
 // });
 
-document.body.addEventListener('click', function(event) {
-  if (event.target.tagName !== 'DIV') {
-  }
-});
+// document.body.addEventListener('click', function(event) {
+//   if (event.target.tagName !== 'DIV') {
+//   }
+// });
