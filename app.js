@@ -116,21 +116,25 @@ document.querySelectorAll('.special-key').forEach(function(key) {
       input.value = '';
       document.getElementById('textToSelect').textContent = input.value;
     } else if (character === '🎙️') {
-      // TODO:
-      setApiKey();
-      recordVoice();
+      if (micOn) {
+        endRecord();
+      } else {
+        startRecord();
+      }
+      micOn = !micOn;
     }
     selectText('textToSelect');
     event.stopPropagation();
   });
 });
 
+let micOn = false;
+let openAiApiKey = window.localStorage.getItem('openAiKey');
+
 const setApiKey = () => {
-  const openAiApiKey = window.localStorage.getItem('openAiKey');
-  if (!openAiApiKey) {
-    document.getElementById('keyboard-container').style.display = 'none';
-    document.getElementById('setting-container').style.display = 'flex';
-  }
+  openAiApiKey = window.localStorage.getItem('openAiKey');
+  document.getElementById('keyboard-container').style.display = 'none';
+  document.getElementById('setting-container').style.display = 'flex';
 }
 
 document.getElementById('api-save-btn').addEventListener('click', () => {
@@ -142,6 +146,7 @@ document.getElementById('api-save-btn').addEventListener('click', () => {
 });
 
 function recordVoice() {
+
   document.getElementById('mic-key').style.backgroundColor = '#de4759';
 }
 
@@ -169,7 +174,36 @@ document.getElementById('select-all-btn').addEventListener('click', function () 
   selectText('textToSelect');
 });
 
-// document.body.addEventListener('click', function(event) {
-//   if (event.target.tagName !== 'DIV') {
-//   }
-// });
+
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+recognition.lang = "ko"; // 음성인식에 사용되고 반환될 언어를 설정한다.
+recognition.maxAlternatives = 5; //음성 인식결과를 5개 까지 보여준다.
+
+if (!recognition) {
+  alert("현재 브라우저는 사용이 불가능합니다.");
+}
+
+// --- 음성녹음을 실행하는 함수
+function startRecord() {
+  document.getElementById('mic-key').style.backgroundColor = '#de4759';
+  console.log("시작");
+
+  recognition.start();
+}
+
+recognition.onstart = function() {
+  console.log('음성 인식이 시작되었습니다.');
+};
+
+recognition.onresult = function(event) {
+  var transcript = event.results[0][0].transcript;
+  console.log(transcript);
+};
+
+recognition.onerror = function(event) {
+  console.error('음성 인식 오류 발생:', event.error);
+};
+
+function endRecord() {
+  recognition.stop();
+}
