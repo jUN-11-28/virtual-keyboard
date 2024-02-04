@@ -115,14 +115,15 @@ document.querySelectorAll('.special-key').forEach(function(key) {
     }else if (character === '🗑️') {
       input.value = '';
       document.getElementById('textToSelect').textContent = input.value;
-    } else if (character === '🎙️') {
-      if (micOn) {
-        endRecord();
-      } else {
-        startRecord();
-      }
-      micOn = !micOn;
     }
+    // else if (character === '🎙️') {
+    //   if (micOn) {
+    //     endRecord();
+    //   } else {
+    //     startRecord();
+    //   }
+    //   micOn = !micOn;
+    // }
     selectText('textToSelect');
     event.stopPropagation();
   });
@@ -131,24 +132,24 @@ document.querySelectorAll('.special-key').forEach(function(key) {
 let micOn = false;
 let openAiApiKey = window.localStorage.getItem('openAiKey');
 
-const setApiKey = () => {
-  openAiApiKey = window.localStorage.getItem('openAiKey');
-  document.getElementById('keyboard-container').style.display = 'none';
-  document.getElementById('setting-container').style.display = 'flex';
-}
+// const setApiKey = () => {
+//   openAiApiKey = window.localStorage.getItem('openAiKey');
+//   document.getElementById('keyboard-container').style.display = 'none';
+//   document.getElementById('setting-container').style.display = 'flex';
+// }
 
-document.getElementById('api-save-btn').addEventListener('click', () => {
-  let apiKey = document.getElementById('api-input').value;
-  window.localStorage.setItem('openAiKey', apiKey);
-  document.getElementById('keyboard-container').style.display = 'flex';
-  document.getElementById('setting-container').style.display = 'none';
-  document.getElementById('mic-key').style.backgroundColor = '';
-});
+// document.getElementById('api-save-btn').addEventListener('click', () => {
+//   let apiKey = document.getElementById('api-input').value;
+//   window.localStorage.setItem('openAiKey', apiKey);
+//   document.getElementById('keyboard-container').style.display = 'flex';
+//   document.getElementById('setting-container').style.display = 'none';
+//   document.getElementById('mic-key').style.backgroundColor = '';
+// });
 
-function recordVoice() {
+// function recordVoice() {
 
-  document.getElementById('mic-key').style.backgroundColor = '#de4759';
-}
+//   document.getElementById('mic-key').style.backgroundColor = '#de4759';
+// }
 
 document.documentElement.addEventListener('touchstart', function (event) {
   if (event.touches.length > 1) {
@@ -172,12 +173,25 @@ document.getElementById('textInput').addEventListener('input', function () {
 
 document.getElementById('select-all-btn').addEventListener('click', function () {
   selectText('textToSelect');
+  let text = document.getElementById('textToSelect').textContent
+  copyTextToClipboard(text);
 });
 
+async function copyTextToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    console.log('success');
+  } catch (err) {
+    console.error('fail', err);
+  }
+}
 
+
+// 나중에 음성인식 기능 추가할 예정
+/*
 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
-recognition.lang = "ko"; // 음성인식에 사용되고 반환될 언어를 설정한다.
-recognition.maxAlternatives = 5; //음성 인식결과를 5개 까지 보여준다.
+recognition.lang = "ko-KR"; // 근데 이놈의 애플이 한국어 막아놓음!
+recognition.maxAlternatives = 20000; // 값이 클수록 자연스럽게 함
 
 if (!recognition) {
   alert("현재 브라우저는 사용이 불가능합니다.");
@@ -207,3 +221,4 @@ recognition.onerror = function(event) {
 function endRecord() {
   recognition.stop();
 }
+*/
