@@ -37,7 +37,7 @@ body {
 
 .special-key {
   /* background-color: rgb(209, 209, 209); */
-  width: 10vw;
+  width: 7vw;
   height: 7vw;
   border: 1px solid black;
   border-radius: 7vw;
@@ -75,11 +75,11 @@ body {
 }
 
 #space-key {
-  width: 25vw;
+  width: 20vw;
 }
 
 #return-key {
-  width: 15vw;
+  width: 13vw;
 }
 
 textarea {
@@ -96,4 +96,34 @@ textarea {
   -webkit-user-select: none;
   /* Safari */
   user-select: none;
+}
+
+#setting-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1vw;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* width: 90vw; */
+}
+
+#api-input {
+  width: 70vw;
+  font-size: 3vw;
+  border: 1px solid black;
+  border-radius: 10px;
+  height: 6vw;
+}
+
+button {
+  font-size: 3vw;
+  width: 15vw;
+  border: 1px solid black;
+  border-radius: 10px;
+  height: 6vw;
 }

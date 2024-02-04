@@ -64,15 +64,21 @@
       <div class="special-key" id="delete-key" data-character="⬅">⬅</div>
     </div>
     <div class="key-row" id="fifth-row">
+      <!-- <div class="special-key" data-character="🎙️" id="mic-key">🎙️</div> -->
       <div class="special-key" data-character="🗑️">🗑️</div>
-      <!-- <div class="special-key" id="select-all-btn" data-character="">📄</div> -->
+      <div class="special-key" id="select-all-btn" data-character="">📄</div>
       <div class="special-key" data-character="💱">💱</div>
-      <div class="special-key" data-character="🌏">🌏</div>
       <div class="key" id="space-key" data-character=" " key-id="36">space</div>
+      <div class="special-key" data-character="🌏">🌏</div>
       <div class="key" id="return-key" data-character="return" key-id="37">return</div>
     </div>
   </div>
-  <div style="font-size: x-small; user-select: none; -webkit-touch-callout: none;-webkit-user-select:none;">ver 1.0.3</div>
+
+  <div id="setting-container" style="display: none;">
+    <input id="api-input" placeholder="enter api key"></input>
+    <button id="api-save-btn">save</button>
+  </div>
+  <div style="font-size: x-small; user-select: none; -webkit-touch-callout: none;-webkit-user-select:none;">ver 1.1.0</div>
 
   <script src="app.js"></script>
 </body>
